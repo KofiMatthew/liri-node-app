@@ -1,7 +1,8 @@
-var axios = require("axios");
+const axios = require("axios");
+const dayjs = require("dayjs");
 const inquirer = require("inquirer");
 require("dotenv").config();
-var keys = require("./keys.js");
+const keys = require("./keys.js");
 
 //Using inquirer in place of a user interface to select type of search and enter search terms
 inquirer
@@ -37,7 +38,26 @@ inquirer
 
 //function for Bands in Town search
 const bandsInTown = function(searchTerms){
-    console.log("Concerts!")
+    axios.get("https://rest.bandsintown.com/artists/" +searchTerms+ "/events?app_id=codingbootcamp")
+        .then(function(response){
+            if (response.data.length > 0){
+                for (i=0; i<response.data.length; i++){
+                    console.log(i+1 +" of "+ response.data.length);
+                    console.log("Venue: " + response.data[i].venue.name)
+                    console.log("Where: "+response.data[i].venue.city + ", " + response.data[i].venue.region);
+                    console.log("When: " + dayjs(response.data[i].datetime).format('MM/DD/YYYY'));
+                    console.log("------------------------");
+                };
+            }else{
+                console.log("I didn't recognize that band. How about Death Cab for Cutie?");
+                console.log("Where: Oregon Zoo Amphitheater in: Portland, OR");
+                console.log("09/06/2019");
+                console.log("------------------------");
+            };
+        })
+        .catch(function(err) {
+            console.log(err);
+        });
 } 
 
 //function for Spotify Search

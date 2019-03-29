@@ -19,6 +19,7 @@
   "homepage": "https://github.com/KofiMatthew/liri-node-app#readme",
   "dependencies": {
     "axios": "^0.18.0",
+    "dayjs": "^1.8.11",
     "dotenv": "^7.0.0",
     "inquirer": "^6.2.2",
     "node-spotify-api": "^1.0.7"
