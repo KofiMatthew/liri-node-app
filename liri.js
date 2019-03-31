@@ -33,7 +33,7 @@ inquirer
             }
           ])
           .then(responses => {
-            const searchTerms = responses.searchTerms
+            const searchTerms = responses.searchTerms;
             bandsInTown(searchTerms);
           });
         break;
@@ -89,7 +89,12 @@ const bandsInTown = function(searchTerms) {
         "/events?app_id=codingbootcamp"
     )
     .then(function(response) {
-      if (response.data.length > 0) {
+      if (response.data === "\n{warn=Not found}\n") {
+        console.log(
+          "I guess they're not touring. Or you spelled it wrong. How about Death Cab for Cutie?"
+        );
+        bandsInTown("DEATH CAB FOR CUTIE");
+      } else {
         for (i = 0; i < response.data.length; i++) {
           console.log(i + 1 + " of " + response.data.length);
           console.log("Venue: " + response.data[i].venue.name);
@@ -104,11 +109,6 @@ const bandsInTown = function(searchTerms) {
           );
           console.log("------------------------");
         }
-      } else {
-        console.log(
-          "I guess they're not touring. Or you spelled it wrong. How about Death Cab for Cutie?"
-        );
-        bandsInTown('DEATH CAB FOR CUTIE');
       }
     })
     .catch(function(err) {
@@ -162,24 +162,25 @@ const omdbSearch = function(searchTerms) {
         "&r&plot=short&apikey=trilogy"
     )
     .then(function(response) {
-
-      if (response.data.Error === 'Movie not found!'){
-        console.log("I couldn't find that movie. May I recommend: Mr. Nobody")
-        omdbSearch("Mr. Nobody")
+      if (response.data.Error === "Movie not found!") {
+        console.log("I couldn't find that movie. May I recommend: Mr. Nobody");
+        omdbSearch("Mr. Nobody");
       } else {
         console.log("------------------------");
         console.log("Summary of: " + response.data.Title);
         console.log("Year: " + response.data.Year);
         console.log("IMDB Rating: " + response.data.imdbRating);
-        console.log("Rotten Tomatoes Rating: " + response.data.Ratings[1].Value);
+        console.log(
+          "Rotten Tomatoes Rating: " + response.data.Ratings[1].Value
+        );
         console.log("Produced in: " + response.data.Country);
         console.log("Language(s): " + response.data.Language);
         console.log("Plot Summary: " + response.data.Plot);
         console.log("Screen Monkies: " + response.data.Actors);
         console.log("------------------------");
-      }      
+      }
     })
     .catch(function(err) {
-        console.log(err);
+      console.log(err);
     });
 };
