@@ -162,16 +162,22 @@ const omdbSearch = function(searchTerms) {
         "&r&plot=short&apikey=trilogy"
     )
     .then(function(response) {
-      console.log("------------------------");
-      console.log("Summary of: " + response.data.Title);
-      console.log("Year: " + response.data.Year);
-      console.log("IMDB Rating: " + response.data.imdbRating);
-      console.log("Rotten Tomatoes Rating: " + response.data.Ratings[1].Value);
-      console.log("Produced in: " + response.data.Country);
-      console.log("Language(s): " + response.data.Language);
-      console.log("Plot Summary: " + response.data.Plot);
-      console.log("Screen Monkies: " + response.data.Actors);
-      console.log("------------------------");
+
+      if (response.data.Error === 'Movie not found!'){
+        console.log("I couldn't find that movie. May I recommend: Mr. Nobody")
+        omdbSearch("Mr. Nobody")
+      } else {
+        console.log("------------------------");
+        console.log("Summary of: " + response.data.Title);
+        console.log("Year: " + response.data.Year);
+        console.log("IMDB Rating: " + response.data.imdbRating);
+        console.log("Rotten Tomatoes Rating: " + response.data.Ratings[1].Value);
+        console.log("Produced in: " + response.data.Country);
+        console.log("Language(s): " + response.data.Language);
+        console.log("Plot Summary: " + response.data.Plot);
+        console.log("Screen Monkies: " + response.data.Actors);
+        console.log("------------------------");
+      }      
     })
     .catch(function(err) {
         console.log(err);
